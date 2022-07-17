@@ -1,7 +1,10 @@
 package com.alex.repo.repositories;
 
-import com.alex.repo.models.Files;
+import com.alex.repo.models.File;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface FilesRepository extends JpaRepository<Files,Long> {
+@Repository
+public interface FilesRepository extends JpaRepository<File,Long> {
+
 }

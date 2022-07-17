@@ -1,11 +1,18 @@
 package com.alex.repo.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "category")
 @Table(name = "category")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -13,36 +20,12 @@ public class Category {
     private long categoryId;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "files_category",
-    joinColumns = {@JoinColumn (name = "files_fileId")},
-    inverseJoinColumns = {@JoinColumn(name = "category_categoryId")})
-    private Set<Files> files = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "file_has_category",
+    joinColumns = {@JoinColumn (name = "file_file_id"),
+            @JoinColumn (name = "file_user_user_id"),
+            @JoinColumn (name = "file_user_role_role_id")},
+    inverseJoinColumns = {@JoinColumn(name = "category_category_id")})
+    private Set<File> files = new HashSet<>();
 
-    public Category() {
-    }
-
-    //GETTERS
-
-    public long getCategoryId() {
-        return categoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Set<Files> getFiles() {
-        return files;
-    }
-
-    //SETTERS
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setFiles(Set<Files> files) {
-        this.files = files;
-    }
 }
