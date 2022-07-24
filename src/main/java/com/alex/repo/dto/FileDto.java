@@ -6,8 +6,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class FileDto {
+public class FileDTO {
 
+    private Long id;
     private String name;
     private String path;
     private String description;

@@ -1,36 +1,48 @@
 package com.alex.repo.service.impl;
 
-import com.alex.repo.dto.FileDto;
 import com.alex.repo.models.File;
-import com.alex.repo.models.User;
 import com.alex.repo.repositories.FilesRepository;
 import com.alex.repo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import java.util.List;
+
 @Service
 public class FileServiceImpl implements FileService {
 
     @Autowired
-    public FilesRepository filesRepository;
+    private FilesRepository filesRepository;
+
 
     @Override
-    public File getFile(Long id) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<File> get() {
+        return filesRepository.findAll();
     }
 
     @Override
-    public File saveFile(FileDto dto) {
-        File file = new File();
-
-        file.setName(dto.getName());
-        file.setPath(dto.getPath());
-        file.setDescription(dto.getDescription());
-        file.setDateUpload(Timestamp.valueOf(dto.getDateUpload()));
-        file.setDateUpdate(Timestamp.valueOf(dto.getDateUpdate()));
-        file.setUser(new User(1L,"user", "pa$$word",null, null));
-
+    @Transactional
+    public File update(File file) {
         return filesRepository.save(file);
+    }
+
+    @Override
+    @Transactional
+    public File create(File file) {
+        return filesRepository.save(file);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public File getById(Long id) {
+        return filesRepository.getReferenceById(id);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        filesRepository.deleteById(id);
     }
 }

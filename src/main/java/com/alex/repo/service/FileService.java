@@ -1,13 +1,20 @@
 package com.alex.repo.service;
 
-import com.alex.repo.dto.FileDto;
+import com.alex.repo.dto.FileDTO;
 import com.alex.repo.models.File;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 public interface FileService {
 
-    File getFile(Long id);
+    List<File> get();
 
-    File saveFile(FileDto dto);
+    File update(File file);
+
+    File create(File file);
+
+    File getById(Long id);
+
+    void delete(Long id);
 
 }
