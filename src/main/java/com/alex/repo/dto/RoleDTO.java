@@ -1,14 +1,28 @@
 package com.alex.repo.dto;
 
-import com.alex.repo.models.User;
-import lombok.Data;
+//import lombok.Data;
 
-
-@Data
+//@Data - Unsuported
 public class RoleDTO {
 
-    private Long roleId;
     private String name;
     private String description;
-    private User user;
+
+    //GETTERS
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    //SETTERS
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

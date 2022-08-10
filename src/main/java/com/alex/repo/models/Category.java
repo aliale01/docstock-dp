@@ -1,19 +1,26 @@
 package com.alex.repo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity(name = "category")
 @Table(name = "category")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@Data - Unsupported
+//@NoArgsConstructor - Unsupported
+//@AllArgsConstructor - Unsupported
 public class Category {
+
+    public Category() {
+    }
+
+    public Category(Long category_id, String name, List<File> files) {
+        this.category_id = category_id;
+        this.name = name;
+        this.files = files;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,11 +30,34 @@ public class Category {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "file_has_category",
-    joinColumns = {@JoinColumn (name = "file_file_id"),
-            @JoinColumn (name = "file_user_user_id"),
-            @JoinColumn (name = "file_user_role_role_id")},
-    inverseJoinColumns = {@JoinColumn(name = "category_category_id")}
+    joinColumns = {@JoinColumn(name = "category_category_id")},
+    inverseJoinColumns = {@JoinColumn (name = "file_file_id")}
     )
-    private Set<File> files = new HashSet<>();
+    private List<File> files;
 
+    //GETTERS
+    public Long getCategory_id() {
+        return category_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    //SETTERS
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
 }

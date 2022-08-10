@@ -1,19 +1,38 @@
 package com.alex.repo.dto;
 
-import com.alex.repo.models.File;
 import com.alex.repo.models.Role;
-import lombok.Data;
+//import lombok.Data;
 
-import java.util.Set;
-
-@Data
+//@Data - Unsupported
 public class UserDTO {
 
-    private Long userId;
     private String username;
     private String password;
-
     private Role role;
 
-    private Set<File> files;
+    //GETTERS
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role  getRole() {
+        return role;
+    }
+
+    //SETTERS
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role  role) {
+        this.role = role;
+    }
 }

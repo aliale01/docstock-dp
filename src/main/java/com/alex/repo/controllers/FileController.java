@@ -1,11 +1,16 @@
 package com.alex.repo.controllers;
 
+import com.alex.repo.dto.FileDTO;
+import com.alex.repo.mapper.FileMapper;
 import com.alex.repo.models.File;
 import com.alex.repo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.transform.OutputKeys;
 import java.util.List;
 
 @RestController
@@ -18,27 +23,42 @@ public class FileController {
     private FileService fileService;
 
     @GetMapping
-    public List<File> get() {
-        return fileService.get();
+    public ResponseEntity<List<FileDTO>> get() {
+        List<File> getFileList = fileService.get();
+        List<FileDTO> responseList = FileMapper.INSTANCE.fileToFileDTOList(getFileList);
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
+        //return fileService.get();
     }
 
     @GetMapping(value = "/{id}")
-    public File getById(@PathVariable Long id) {
-        return fileService.getById(id);
+    public ResponseEntity<FileDTO> getById(@PathVariable Long id) {
+        File getFile = fileService.getById(id);
+        FileDTO responseFile = FileMapper.INSTANCE.fileToFileDTO(getFile);
+        return new ResponseEntity<>(responseFile,HttpStatus.OK);
+        //return fileService.getById(id);
     }
 
     @PostMapping
-    public File create(@Valid @RequestBody File file) {
-        return fileService.create(file);
+    public ResponseEntity<FileDTO> create(@Valid @RequestBody FileDTO fileDTO) {
+        File requestFile = FileMapper.INSTANCE.fileDTOToFile(fileDTO);
+        File createFile = fileService.create(requestFile);
+        FileDTO responseFile = FileMapper.INSTANCE.fileToFileDTO(createFile);
+        return new ResponseEntity<>(responseFile,HttpStatus.CREATED);
+        //return fileService.create(file);
     }
 
     @PutMapping
-    public File update(@Valid @RequestBody File file) {
-        return fileService.update(file);
+    public ResponseEntity<FileDTO> update(@Valid @RequestBody FileDTO fileDTO) {
+        File requestFile = FileMapper.INSTANCE.fileDTOToFile(fileDTO);
+        File updateFile = fileService.update(requestFile);
+        FileDTO responseFile = FileMapper.INSTANCE.fileToFileDTO(updateFile);
+        return new ResponseEntity<>(responseFile, HttpStatus.OK);
+        //return fileService.update(file);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
         fileService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
