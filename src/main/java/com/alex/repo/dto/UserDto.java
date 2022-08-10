@@ -8,7 +8,7 @@ public class UserDTO {
 
     private String username;
     private String password;
-    private Role role;
+    private Role role; //change to collection with roles without relationhsip
 
     //GETTERS
     public String getUsername() {
