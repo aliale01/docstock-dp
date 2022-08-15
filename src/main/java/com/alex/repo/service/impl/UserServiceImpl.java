@@ -1,22 +1,28 @@
 package com.alex.repo.service.impl;
 
+import com.alex.repo.models.Role;
 import com.alex.repo.models.User;
+import com.alex.repo.repositories.RoleRepository;
 import com.alex.repo.repositories.UserRepository;
 import com.alex.repo.service.UserService;
+//import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 /*import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service //@RequiredArgsConstructor ???
 public class UserServiceImpl implements UserService/*, UserDetailsService*/ {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    //private RoleRepository roleRepository;
 
    /* @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,5 +58,14 @@ public class UserServiceImpl implements UserService/*, UserDetailsService*/ {
     @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    @Qualifier
+    public void addRoleToUser(String username, String name) {
+        User user = userRepository.findByUsername(username);
+        //Role role =roleRepository.findByRoleName(name);
+        //user.getRoles().add(role);
     }
 }

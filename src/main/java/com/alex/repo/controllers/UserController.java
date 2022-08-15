@@ -28,7 +28,6 @@ public class UserController {
         List<User> getUserList = userService.get();
         List<UserDTO> responseList = UserMapper.INSTANCE.userToUserDTOList(getUserList);
         return new ResponseEntity<>(responseList, HttpStatus.OK);
-        //return userService.get();
     }
 
     @GetMapping(value = "/{id}")
@@ -36,7 +35,6 @@ public class UserController {
         User getUser = userService.getById(id);
         UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(getUser);
         return new ResponseEntity<>(responseUser,HttpStatus.OK);
-        //return userService.getById(id);
     }
 
     @PostMapping
@@ -45,7 +43,6 @@ public class UserController {
         User createUser = userService.create(requestUser);
         UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(createUser);
         return new ResponseEntity<>(responseUser, HttpStatus.CREATED);
-        //return userService.create(user);
     }
 
     @PutMapping
@@ -54,7 +51,6 @@ public class UserController {
         User updateUser = userService.create(requestUser);
         UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(updateUser);
         return new ResponseEntity<>(responseUser, HttpStatus.OK);
-        //return userService.update(user);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -4,6 +4,7 @@ package com.alex.repo.models;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity(name = "user")
@@ -16,11 +17,11 @@ public class User {
     public User() {
     }
 
-    public User(Long userId, String username, String password, Role role, Set<File> files) {
+    public User(Long userId, String username, String password, Collection<Role> roles, Set<File> files) {
         this.userId = userId;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
         this.files = files;
     }
 
@@ -32,9 +33,11 @@ public class User {
     private String username;
     private String password;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn (name = "role_role_id")
-    private Role role;
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JoinTable(name = "user_has_role",
+            joinColumns = {@JoinColumn(name = "user_user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_role_id")})
+    private Collection<Role> roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<File> files;
@@ -52,8 +55,8 @@ public class User {
         return password;
     }
 
-    public Role getRole() {
-        return role;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
     public Set<File> getFiles() {
@@ -63,7 +66,7 @@ public class User {
     //SETTERS
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
+    } //?
 
     public void setUsername(String username) {
         this.username = username;
@@ -73,11 +76,11 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }//?
 
     public void setFiles(Set<File> files) {
         this.files = files;
-    }
+    }//?
 }

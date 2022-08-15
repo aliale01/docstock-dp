@@ -28,7 +28,6 @@ public class Role {
     private String name;
     private String description;
 
-
     //GETTERS
     public Long getRoleId() {
         return roleId;

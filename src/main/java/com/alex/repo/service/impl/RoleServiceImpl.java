@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -44,4 +45,13 @@ public class RoleServiceImpl implements RoleService {
     public void delete(Long id) {
         roleRepository.deleteById(id);
     }
+/*
+    @Transactional
+    public Collection<Role> getByRoleName(Collection<String> roles){
+        for (String role : roles){
+            roleRepository.findByRoleName(role);
+        }
+
+        return null;
+    }*/
 }

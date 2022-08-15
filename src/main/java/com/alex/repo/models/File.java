@@ -4,6 +4,8 @@ package com.alex.repo.models;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -43,7 +45,8 @@ public class File {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateUpdate;
 
-    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_user_id", nullable = false)
     private User user;
 

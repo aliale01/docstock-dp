@@ -17,4 +17,6 @@ public interface UserService {
 
     void delete(Long id);
 
+    void addRoleToUser(String username, String rolename);
+
 }

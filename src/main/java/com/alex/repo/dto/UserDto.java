@@ -1,6 +1,6 @@
 package com.alex.repo.dto;
 
-import com.alex.repo.models.Role;
+import java.util.Collection;
 //import lombok.Data;
 
 //@Data - Unsupported
@@ -8,7 +8,6 @@ public class UserDTO {
 
     private String username;
     private String password;
-    private Role role; //change to collection with roles without relationhsip
 
     //GETTERS
     public String getUsername() {
@@ -19,10 +18,6 @@ public class UserDTO {
         return password;
     }
 
-    public Role  getRole() {
-        return role;
-    }
-
     //SETTERS
     public void setUsername(String username) {
         this.username = username;
@@ -30,9 +25,5 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setRole(Role  role) {
-        this.role = role;
     }
 }
