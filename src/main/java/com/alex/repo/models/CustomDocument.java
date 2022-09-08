@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "customDocuments")
 @Data
@@ -20,15 +22,18 @@ public class CustomDocument extends RepositoryItem{
 
     public static final String ORIGINAL_FILE_NAME = "original_file_name";
     public static final String CONVERTED_FILE_NAME = "converted_file_name";
+    public static final String TIMESTAMP = "timestamp";
     public static final String DESCRIPTION = "description";
     public static final String USER_ID = "user_id";
 
-    @Column(name = ORIGINAL_FILE_NAME, nullable = false)
+    @Column(name = ORIGINAL_FILE_NAME, nullable = false, length = 80)
     private String originalFileName;
 
-    @Column(name = CONVERTED_FILE_NAME, nullable = false)
+    @Column(name = CONVERTED_FILE_NAME, nullable = false, length = 80)
     private String convertedFileName;
 
+    @Column(name = TIMESTAMP, length = 27)
+    private String timestamp;
     @Column(name = DESCRIPTION, nullable = false)
     private String description;
 
@@ -53,6 +58,7 @@ public class CustomDocument extends RepositoryItem{
         return "CustomDocument{" +
                 "originalFileName='" + originalFileName + '\'' +
                 ", convertedFileName='" + convertedFileName + '\'' +
+                ", timestamp='" + timestamp + '\'' +
                 ", description='" + description + '\'' +
                 ", fileType='" + fileType + '\'' +
                 '}';

@@ -18,7 +18,7 @@ public interface CustomDocumentService {
 
     void delete(String id);
 
-    CustomDocument createDocument(MultipartFile file, String description, String convertedFileName, String username);
+    CustomDocument createDocument(MultipartFile file, String timestamp, String description, String convertedFileName, String username);
 
     Resource downloadFile(String id);
 }

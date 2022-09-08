@@ -35,7 +35,7 @@ public class User extends RepositoryItem{
 
     private static final String USER = "user";
 
-    @Column(name = USERNAME, nullable = false, unique = true)
+    @Column(name = USERNAME, nullable = false, unique = true, length = 80)
     private String username;
 
     @Column(name = PASSWORD, nullable = false)
@@ -70,7 +70,6 @@ public class User extends RepositoryItem{
                 '}';
     }
 
-    // что тут происходит
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,7 +8,11 @@ import com.alex.repo.models.CustomDocument;
 import com.alex.repo.models.User;
 import com.alex.repo.service.CustomDocumentService;
 import com.alex.repo.util.AuthenticationFacade;
+
+import java.time.Instant;
 import java.util.List;
+
+import com.aspose.cells.DateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -37,7 +41,9 @@ public class CustomDocumentController {
                                          @RequestParam String convertedFileName,
                                          @RequestParam MultipartFile file) {
         String username = authenticationFacade.getUsername();
-        CustomDocument document = customDocumentService.createDocument(file, description, convertedFileName, username);
+        String timestamp = Instant.now().toString();
+        timestamp = timestamp.substring(0,10) + " " + timestamp.substring(11,19);
+        CustomDocument document = customDocumentService.createDocument(file, timestamp, description, convertedFileName, username);
         return new ResponseHolder<>(document.getId());
     }
 

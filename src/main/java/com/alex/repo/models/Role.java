@@ -26,7 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Builder
 public class Role extends RepositoryItem implements GrantedAuthority {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 80)
     private String roleName;
 
     @Column(nullable = false, unique = true)

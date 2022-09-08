@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(UrlMapping.LOGIN,
                                  UrlMapping.REGISTER,
                                  UrlMapping.REFRESH).permitAll()
+                    .antMatchers(
+                        UrlMapping.SWAGGER_WHITELIST).permitAll()
                     .anyRequest().authenticated().and()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

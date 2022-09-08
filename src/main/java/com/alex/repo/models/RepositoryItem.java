@@ -20,7 +20,7 @@ public abstract class RepositoryItem {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = ID)
+    @Column(name = ID, length = 50)
     @Access(AccessType.PROPERTY)
     private String id;
 }

@@ -64,13 +64,14 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
     }
 
     @Override
-    public CustomDocument createDocument(MultipartFile file, String description, String convertedFileName, String username) {
+    public CustomDocument createDocument(MultipartFile file, String timestamp, String description, String convertedFileName, String username) {
         User user = userService.findByUserName(username);
         String contentType = file.getContentType();
         convertFile(file, convertedFileName, contentType);
         CustomDocument customDocument = CustomDocument.builder()
                                                       .originalFileName(file.getName())
                                                       .fileType(contentType)
+                                                      .timestamp(timestamp)
                                                       .description(description)
                                                       .convertedFileName(convertedFileName)
                                                       .build();
