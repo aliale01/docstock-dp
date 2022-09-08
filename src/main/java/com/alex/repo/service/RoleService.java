@@ -1,19 +1,23 @@
 package com.alex.repo.service;
 
+import com.alex.repo.dto.RoleDTO;
 import com.alex.repo.models.Role;
-
 import java.util.List;
 
 public interface RoleService {
 
     List<Role> get();
 
-    Role update(Role role);
+    Role update(RoleDTO roleDTO);
+
+    Role create(RoleDTO roleDTO);
 
     Role create(Role role);
 
-    Role getById(Long id);
+    Role getById(String id);
 
-    void delete(Long id);
+    Role getRoleByName(String roleName);
+
+    void delete(String id);
 
 }

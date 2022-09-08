@@ -1,86 +1,85 @@
 package com.alex.repo.models;
 
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-import javax.persistence.*;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity(name = "user")
-@Table(name = "user")
-//@Data - Unsupported
-//@NoArgsConstructor - Unsupported
-//@AllArgsConstructor - Unsupported
-public class User {
+@Entity
+@Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+public class User extends RepositoryItem{
 
-    public User() {
-    }
+    // JPA define fields
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String USER_ID = "user_id";
+    private static final String ROLE_ID = "role_id";
+    private static final String USERS_ROLES = "users_roles";
 
-    public User(Long userId, String username, String password, Collection<Role> roles, Set<File> files) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.files = files;
-    }
+    private static final String USER = "user";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Long userId;
-
+    @Column(name = USERNAME, nullable = false, unique = true)
     private String username;
+
+    @Column(name = PASSWORD, nullable = false)
     private String password;
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "user_has_role",
-            joinColumns = {@JoinColumn(name = "user_user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_role_id")})
-    private Collection<Role> roles;
+    @ManyToMany()
+    @JoinTable(name = USERS_ROLES,
+            joinColumns = @JoinColumn(name = USER_ID),
+            inverseJoinColumns = @JoinColumn(name = ROLE_ID))
+    private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<File> files;
+    @OneToMany(mappedBy = USER, fetch = FetchType.LAZY)
+    private List<CustomDocument> customDocuments = new ArrayList<>();
 
-    //GETTERS
-    public Long getUserId() {
-        return userId;
+    public void addRole(Role role){
+        if(this.getRoles() == null){
+            this.roles = new HashSet<>();
+        }
+        this.getRoles().add(role);
     }
 
-    public String getUsername() {
-        return username;
+    public void removeRole(Role role){
+        this.getRoles().remove(role);
+        role.getUsers().remove(this);
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
+    // что тут происходит
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return username.equals(user.username);
     }
 
-    public Set<File> getFiles() {
-        return files;
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
     }
-
-    //SETTERS
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    } //?
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }//?
-
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }//?
 }

@@ -1,71 +1,58 @@
 package com.alex.repo.service.impl;
 
-import com.alex.repo.models.Role;
+import com.alex.repo.dto.UserDTO;
+import com.alex.repo.mapper.UserMapper;
 import com.alex.repo.models.User;
-import com.alex.repo.repositories.RoleRepository;
 import com.alex.repo.repositories.UserRepository;
 import com.alex.repo.service.UserService;
-//import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-/*import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@Service //@RequiredArgsConstructor ???
-public class UserServiceImpl implements UserService/*, UserDetailsService*/ {
+@Service
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    //private RoleRepository roleRepository;
-
-   /* @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername
-        return null;
-    }*/
+    private final UserRepository userRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<User> get() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional
+    public User findByUserName(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    @Override
     public User update(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    @Transactional
+    public User create(UserDTO userDTO) {
+        User user = UserMapper.INSTANCE.map(userDTO);
+        return userRepository.save(user);
+    }
+
+    @Override
     public User create(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User getById(Long id) {
+    public User getById(String id) {
         return userRepository.getReferenceById(id);
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
+    public void delete(String id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
-    @Qualifier
-    public void addRoleToUser(String username, String name) {
-        User user = userRepository.findByUsername(username);
-        //Role role =roleRepository.findByRoleName(name);
-        //user.getRoles().add(role);
+    public void addRoleToUser(String username, String role) {
+
     }
 }

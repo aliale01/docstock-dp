@@ -1,56 +1,59 @@
 package com.alex.repo.models;
 
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-import javax.persistence.*;
+import com.alex.repo.dto.RoleDTO;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
-@Entity(name = "role")
-@Table(name = "role")
-//@Data - Unsupported
-//@NoArgsConstructor - Unsupported
-//@AllArgsConstructor - Unsupported
-public class Role {
+@Entity
+@Getter
+@Setter
+@Table(name = "roles")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+public class Role extends RepositoryItem implements GrantedAuthority {
 
-    public Role() {
-    }
+    @Column(nullable = false, unique = true)
+    private String roleName;
 
-    public Role(Long roleId, String name, String description) {
-        this.roleId = roleId;
-        this.name = name;
-        this.description = description;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long roleId;
-
-    private String name;
+    @Column(nullable = false, unique = true)
     private String description;
 
-    //GETTERS
-    public Long getRoleId() {
-        return roleId;
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
+
+    public Role(RoleDTO roleDTO) {
+        this.roleName = roleDTO.getRoleName();
+        this.description = roleDTO.getDescription();
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getAuthority() {
+        return getRoleName();
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role role)) return false;
+        return roleName.equals(role.roleName);
     }
 
-    //SETTERS
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public int hashCode() {
+        return Objects.hash(roleName);
     }
 }

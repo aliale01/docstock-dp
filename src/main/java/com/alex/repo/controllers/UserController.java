@@ -1,61 +1,63 @@
 package com.alex.repo.controllers;
 
+import com.alex.repo.constants.UrlMapping;
 import com.alex.repo.dto.UserDTO;
+import com.alex.repo.exception.response.ResponseHolder;
 import com.alex.repo.mapper.UserMapper;
 import com.alex.repo.models.User;
 import com.alex.repo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
+import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = UserController.BASE_URL)
+@RequestMapping(UrlMapping.USERS)
+@AllArgsConstructor
 public class UserController {
 
-
-    public static final String BASE_URL = ServiceAPIUrl.VERSION_PATH + "/users";
-
-    @Autowired
-    private UserService userService;
-
+    private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> get() {
-        List<User> getUserList = userService.get();
-        List<UserDTO> responseList = UserMapper.INSTANCE.userToUserDTOList(getUserList);
-        return new ResponseEntity<>(responseList, HttpStatus.OK);
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+    public ResponseHolder<List<UserDTO>> get() {
+        List<User> getUserList = userService.getAllUsers();
+        List<UserDTO> responseList = UserMapper.INSTANCE.map(getUserList);
+        return new ResponseHolder<>(responseList);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
-        User getUser = userService.getById(id);
-        UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(getUser);
-        return new ResponseEntity<>(responseUser,HttpStatus.OK);
+    public ResponseHolder<UserDTO> getById(@PathVariable String id) {
+        User user = userService.getById(id);
+        UserDTO userDTO = UserMapper.INSTANCE.map(user);
+        return new ResponseHolder<>(userDTO);
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO userDTO) {
-        User requestUser = UserMapper.INSTANCE.userDTOToUser(userDTO);
-        User createUser = userService.create(requestUser);
-        UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(createUser);
-        return new ResponseEntity<>(responseUser, HttpStatus.CREATED);
+    public ResponseHolder<UserDTO> create(@Valid @RequestBody UserDTO userDTO) {
+        User user = userService.create(userDTO);
+        UserDTO responseUserDTO = UserMapper.INSTANCE.map(user);
+        return new ResponseHolder<>(responseUserDTO);
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO userDTO) {
-        User requestUser = UserMapper.INSTANCE.userDTOToUser(userDTO);
-        User updateUser = userService.create(requestUser);
-        UserDTO responseUser = UserMapper.INSTANCE.userToUserDTO(updateUser);
-        return new ResponseEntity<>(responseUser, HttpStatus.OK);
+    public ResponseHolder<UserDTO> update(@Valid @RequestBody UserDTO userDTO) {
+        User user = userService.create(userDTO);
+        UserDTO responseUserDTO = UserMapper.INSTANCE.map(user);
+        return new ResponseHolder<>(responseUserDTO);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+    public ResponseHolder<String> delete(@PathVariable String id) {
         userService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseHolder<>("OK");
     }
 }

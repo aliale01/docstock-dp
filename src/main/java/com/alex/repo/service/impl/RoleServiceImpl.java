@@ -1,57 +1,54 @@
 package com.alex.repo.service.impl;
 
+import com.alex.repo.dto.RoleDTO;
+import com.alex.repo.mapper.RoleMapper;
 import com.alex.repo.models.Role;
 import com.alex.repo.repositories.RoleRepository;
 import com.alex.repo.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Role> get() {
         return roleRepository.findAll();
     }
 
     @Override
-    @Transactional
-    public Role update(Role role) {
+    public Role update(RoleDTO roleDTO) {
+        Role role = RoleMapper.INSTANCE.map(roleDTO);
         return roleRepository.save(role);
     }
 
     @Override
-    @Transactional
+    public Role create(RoleDTO roleDTO) {
+        Role role = new Role(roleDTO);
+        return this.create(role);
+    }
+
+    @Override
     public Role create(Role role) {
         return roleRepository.save(role);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Role getById(Long id) {
+    public Role getById(String id) {
         return roleRepository.getReferenceById(id);
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
+    public Role getRoleByName(String roleName) {
+        return roleRepository.getRoleByRoleName(roleName);
+    }
+
+    @Override
+    public void delete(String id) {
         roleRepository.deleteById(id);
     }
-/*
-    @Transactional
-    public Collection<Role> getByRoleName(Collection<String> roles){
-        for (String role : roles){
-            roleRepository.findByRoleName(role);
-        }
-
-        return null;
-    }*/
 }
