@@ -7,10 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Andrii Borozdykh
- */
-
 @Component
 @AllArgsConstructor
 public class AuthenticationFacade {

@@ -17,10 +17,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
-/**
- * @author Andrii Borozdykh
- */
-
 @Entity
 @Getter
 @Setter

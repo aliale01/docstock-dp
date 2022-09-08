@@ -10,20 +10,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- * @author Andrii Borozdykh
- */
-
-
 @Getter
 @Setter
 @MappedSuperclass
 public abstract class RepositoryItem {
 
     private static final String ID = "id";
-    private static final String DATETIME_UTC = "timestamptz(0)";
-    private static final String CREATED_DATE_TIME = "created";
-    private static final String UPDATE_DATE_TIME = "updated";
 
     @Id
     @GeneratedValue(generator = "uuid")

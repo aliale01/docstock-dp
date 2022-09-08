@@ -20,6 +20,5 @@ public interface UserService {
     User getById(String id);
 
     void delete(String id);
-
     void addRoleToUser(String username, String role);
 }

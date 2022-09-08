@@ -32,11 +32,11 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String createTokenWithEmail(String email) {
+    public String createTokenWithUsername(String username) {
         Date expiryDate = new Date(new Date().getTime()
                 + this.getTokenExpirationMsec());
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, this.getTokenSecret())
