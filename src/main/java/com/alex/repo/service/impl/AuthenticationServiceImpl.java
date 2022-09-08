@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Andrii Borozdykh
+ */
+
 @Service
 @AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {

@@ -10,6 +10,10 @@ import com.aspose.words.SaveOutputParameters;
 import java.io.InputStream;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Andrii Borozdykh
+ */
+
 @Service
 public class AsposeDocConvertor implements FileToPdfConvertor {
 

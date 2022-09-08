@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseHolder<T> extends ApiResponse {
 
+    private static final long serialVersionUID = 6158533540558065158L;
+
     private T data;
 
     public ResponseHolder(T data) {

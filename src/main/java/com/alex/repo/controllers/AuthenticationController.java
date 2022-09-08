@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
-import java.time.Instant;
+/**
+ * @author Andrii Borozdykh
+ */
 
 @RestController
 @AllArgsConstructor
@@ -48,7 +49,6 @@ public class AuthenticationController {
         return new ResponseHolder<>(AuthResponse.builder()
                                                 .accessToken(token)
                                                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                                                .expiresAt(Date.from(Instant.now().plusMillis(jwtTokenUtil.getTokenExpirationMsec())).toInstant())
                                                 .build());
     }
 
@@ -56,16 +56,10 @@ public class AuthenticationController {
     public ResponseHolder<AuthResponse> refreshToken(
             @Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
-        String token = jwtTokenUtil.createTokenWithUsername(refreshTokenRequest.getUsername());
+        String token = jwtTokenUtil.createTokenWithEmail(refreshTokenRequest.getUsername());
         return new ResponseHolder<>(AuthResponse.builder()
                                                 .accessToken(token)
                                                 .refreshToken(refreshTokenRequest.getRefreshToken())
                                                 .build());
-    }
-
-    @PostMapping(UrlMapping.LOGOUT)
-    public ResponseHolder<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest){
-        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-        return new ResponseHolder<>("User logged out successfully");
     }
 }

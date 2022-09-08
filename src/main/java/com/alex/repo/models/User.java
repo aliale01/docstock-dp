@@ -26,7 +26,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User extends RepositoryItem{
 
-    // JPA define fields
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String USER_ID = "user_id";
@@ -70,16 +69,15 @@ public class User extends RepositoryItem{
                 '}';
     }
 
-    // что тут происходит
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return username.equals(user.username);
+        return username.equals(user.username) && password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username);
+        return Objects.hash(username, password);
     }
 }
