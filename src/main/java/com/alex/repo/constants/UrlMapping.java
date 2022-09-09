@@ -10,7 +10,7 @@ public interface UrlMapping {
     String LOGOUT = AUTH + "/logout";
     String UPLOAD = ("/upload");
     String DOCUMENTS = API + "/documents";
-    String ROLES = API + "roles";
+    String ROLES = API + "/roles";
     String USERS = API + "/users";
 
     String[] SWAGGER_WHITELIST = {
