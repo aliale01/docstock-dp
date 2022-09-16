@@ -13,6 +13,7 @@ import java.time.Instant;
 @Builder
 public class AuthResponse {
 
+    private String username;
     private String accessToken;
     private String refreshToken;
     private Instant expiresAt;

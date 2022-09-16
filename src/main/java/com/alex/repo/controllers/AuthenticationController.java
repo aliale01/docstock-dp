@@ -1,9 +1,11 @@
 package com.alex.repo.controllers;
 
+import com.alex.repo.constants.APIServiceError;
 import com.alex.repo.constants.UrlMapping;
 import com.alex.repo.dto.AuthResponse;
 import com.alex.repo.dto.RefreshTokenRequest;
 import com.alex.repo.dto.UserDTO;
+import com.alex.repo.exception.APIExcepiton;
 import com.alex.repo.exception.response.ResponseHolder;
 import com.alex.repo.security.JwtTokenUtil;
 import com.alex.repo.service.AuthenticationService;
@@ -34,8 +36,11 @@ public class AuthenticationController {
     @PostMapping(UrlMapping.REGISTER)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseHolder<String> registerUser(@RequestBody UserDTO userDTO) {
-        authenticationService.register(userDTO.getUsername(), userDTO.getPassword());
-        return new ResponseHolder<>("User has created successfully");
+            if (userDTO.getPassword().length() < 8 || userDTO.getPassword().length() > 255){
+                throw new APIExcepiton(APIServiceError.INVALID_PASSWORD_LENGTH);
+        }
+            authenticationService.register(userDTO.getUsername(), userDTO.getPassword());
+            return new ResponseHolder<>("User has created successfully");
     }
 
     @PostMapping(UrlMapping.LOGIN)
@@ -46,6 +51,7 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenUtil.createToken(authentication);
         return new ResponseHolder<>(AuthResponse.builder()
+                                                .username(userDTO.getUsername())
                                                 .accessToken(token)
                                                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
                                                 .expiresAt(Date.from(Instant.now().plusMillis(jwtTokenUtil.getTokenExpirationMsec())).toInstant())

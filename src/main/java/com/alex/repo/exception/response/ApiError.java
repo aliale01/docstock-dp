@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError implements Serializable {
 
-    private static final long serialVersionUID = 3141202315514392014L;
-
     private Severity type;
     private String code;
     private String field;

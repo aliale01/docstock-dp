@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,9 +29,11 @@ public class CustomDocument extends RepositoryItem{
     public static final String USER_ID = "user_id";
 
     @Column(name = ORIGINAL_FILE_NAME, nullable = false, length = 80)
+    @NotBlank(message = "Field must be filled.")
     private String originalFileName;
 
     @Column(name = CONVERTED_FILE_NAME, nullable = false, length = 80)
+    @NotBlank(message = "Field must be filled.")
     private String convertedFileName;
 
     @Column(name = TIMESTAMP, length = 27)

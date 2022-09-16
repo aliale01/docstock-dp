@@ -17,6 +17,8 @@ public enum APIServiceError {
     UNKNOWN_MIME_TYPE(ERROR, BAD_REQUEST, "Unknown mime type"),
     UNKNOWN_USER(ERROR, BAD_REQUEST, "Unknown user"),
     USER_UNAUTHORIZED(ERROR, UNAUTHORIZED, "Unauthorized"),
+    USER_EXISTS(ERROR, BAD_REQUEST, "This user already exists"),
+    INVALID_PASSWORD_LENGTH(ERROR, BAD_REQUEST, "Password should be more than 8 characters."),
     SERVER_ERROR(ERROR, INTERNAL_SERVER_ERROR, "Internal server error"),
     INVALID_REFRESH_TOKEN(ERROR, BAD_REQUEST, "Invalid refresh token"),
     DOCUMENT_NOT_FOUND(ERROR, BAD_REQUEST, "Document not found");
