@@ -34,7 +34,6 @@ public class AuthenticationController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping(UrlMapping.REGISTER)
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseHolder<String> registerUser(@RequestBody UserDTO userDTO) {
             if (userDTO.getPassword().length() < 8 || userDTO.getPassword().length() > 255){
                 throw new APIExcepiton(APIServiceError.INVALID_PASSWORD_LENGTH);
