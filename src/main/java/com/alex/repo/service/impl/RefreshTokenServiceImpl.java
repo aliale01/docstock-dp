@@ -29,7 +29,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     public void validateRefreshToken(String token) {
         refreshTokenRepository.findByToken(token).orElseThrow(
-                () -> new APIExcepiton(APIServiceError.SERVER_ERROR));
+                () -> new APIExcepiton(APIServiceError.UNHANDLED_ERROR));
     }
 
     public void deleteRefreshToken(String token) {

@@ -1,6 +1,6 @@
 package com.alex.repo.exception;
 
-import static com.alex.repo.constants.HttpStatusConstant.INTERNAL_SERVER_ERROR;
+import static com.alex.repo.constants.HttpStatusConstant.CONFLICT;
 
 import com.alex.repo.constants.APIServiceError;
 import com.alex.repo.exception.response.ApiError;
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public ApiResponse uncheckedExceptionHandler(HttpServletResponse response, Throwable throwable) {
-        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.setStatus(HttpStatus.CONFLICT.value());
         throwable.printStackTrace();
         ApiError apiError = getApiError(throwable);
         return buildUnsuccessfulResponse(List.of(apiError));
@@ -63,8 +63,8 @@ public class GlobalExceptionHandler {
     private ApiError getApiError(Throwable throwable) {
         return ApiError.builder()
                        .type(Severity.FATAL)
-                       .code(APIServiceError.SERVER_ERROR.name())
-                       .status(INTERNAL_SERVER_ERROR)
+                       .code(APIServiceError.UNHANDLED_ERROR.name())
+                       .status(CONFLICT)
                        .message(throwable.getMessage())
                        .build();
     }
