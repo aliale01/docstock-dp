@@ -23,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     @Override
     public User register(String username, String password) {
-        if (userRepository.findUserByUsername(username) != null) {
+        if (userRepository.findUserByUsername(username) == null) {
             User user = new User();
             user.setUsername(username);
             user.setPassword(passwordEncoder.encode(password));
