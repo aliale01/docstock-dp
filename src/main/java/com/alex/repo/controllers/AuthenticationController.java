@@ -12,7 +12,6 @@ import com.alex.repo.service.AuthenticationService;
 import com.alex.repo.service.RefreshTokenService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,7 +52,7 @@ public class AuthenticationController {
                                                 .username(userDTO.getUsername())
                                                 .accessToken(token)
                                                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                                                .expiresAt(Date.from(Instant.now().plusMillis(jwtTokenUtil.getTokenExpirationMsec())).toInstant())
+                                                .expiresAt(Date.from(Instant.now().plusMillis(jwtTokenUtil.getTokenExpirationMsec())).toString())
                                                 .build());
     }
 
@@ -63,8 +62,10 @@ public class AuthenticationController {
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
         String token = jwtTokenUtil.createTokenWithUsername(refreshTokenRequest.getUsername());
         return new ResponseHolder<>(AuthResponse.builder()
+                                                .username(refreshTokenRequest.getUsername())
                                                 .accessToken(token)
                                                 .refreshToken(refreshTokenRequest.getRefreshToken())
+                                                .expiresAt(Date.from(Instant.now().plusMillis(jwtTokenUtil.getTokenExpirationMsec())).toString())
                                                 .build());
     }
 
