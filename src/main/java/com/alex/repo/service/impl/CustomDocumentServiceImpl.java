@@ -81,7 +81,7 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
     }
 
     @Override
-    public Resource downloadFile(String id) {
+    public byte[] downloadFile(String id) {
         CustomDocument customDocument = customDocumentRepository.findById(id)
                                                                 .orElseThrow(() -> new APIExcepiton(APIServiceError.DOCUMENT_NOT_FOUND));
         User user = authenticationFacade.getUser();
@@ -92,8 +92,9 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
                 String convertedFileName = customDocument.getConvertedFileName();
                 String path = PATH + user.getUsername() + "_" + convertedFileName + PDF;
                 File file = new File(path);
-                return new InputStreamResource(new FileInputStream(file));
-            } catch (FileNotFoundException e) {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                return fileInputStream.readAllBytes();
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {

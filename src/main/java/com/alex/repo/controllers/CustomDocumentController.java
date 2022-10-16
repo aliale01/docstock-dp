@@ -68,14 +68,14 @@ public class CustomDocumentController {
 
     @PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
     @GetMapping(value = "/download/{id}")
-    public ResponseEntity<Resource> download(@PathVariable String id) {
-        Resource resource = customDocumentService.downloadFile(id);
+    public ResponseEntity<byte[]> download(@PathVariable String id) {
+        byte[] payload = customDocumentService.downloadFile(id);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=\"%s\"".formatted(customDocumentService.getNameById(id)));
         return ResponseEntity.ok()
                              .contentType(MediaType.APPLICATION_PDF)
                              .headers(headers)
-                             .body(resource);
+                             .body(payload);
     }
 
     @DeleteMapping(value = "/{id}")
