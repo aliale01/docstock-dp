@@ -4,5 +4,5 @@ import java.io.InputStream;
 
 public interface FileToPdfConvertor {
 
-    void convert(InputStream inputStream, String convertedFileName, String contentType);
+    void convert(InputStream inputStream, String convertedFileName, String contentType, String username);
 }

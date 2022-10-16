@@ -67,7 +67,7 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
     public CustomDocument createDocument(MultipartFile file, String timestamp, String description, String convertedFileName, String username) {
         User user = userService.findByUserName(username);
         String contentType = file.getContentType();
-        convertFile(file, convertedFileName, contentType);
+        convertFile(file, convertedFileName, contentType, username);
         CustomDocument customDocument = CustomDocument.builder()
                                                       .originalFileName(file.getName())
                                                       .fileType(contentType)
@@ -102,11 +102,18 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
 
     }
 
-    private void convertFile(MultipartFile file, String convertedFileName, String contentType) {
+    private void convertFile(MultipartFile file, String convertedFileName, String contentType, String username) {
         try {
-            fileToPdfConvertor.convert(file.getInputStream(), convertedFileName, contentType);
+            fileToPdfConvertor.convert(file.getInputStream(), convertedFileName, contentType, username);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getNameById(String id) {
+        CustomDocument customDocument = customDocumentRepository.findById(id)
+                .orElseThrow(() -> new APIExcepiton(APIServiceError.DOCUMENT_NOT_FOUND));
+        return customDocument.getConvertedFileName();
     }
 }
