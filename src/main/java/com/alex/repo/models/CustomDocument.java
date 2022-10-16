@@ -36,7 +36,7 @@ public class CustomDocument extends RepositoryItem{
     @NotBlank(message = "Field must be filled.")
     private String convertedFileName;
 
-    @Column(name = TIMESTAMP, length = 27)
+    @Column(name = TIMESTAMP, length = 32)
     private String timestamp;
     @Column(name = DESCRIPTION, nullable = false)
     private String description;
