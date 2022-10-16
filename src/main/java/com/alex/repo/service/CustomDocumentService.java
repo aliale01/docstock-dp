@@ -21,4 +21,6 @@ public interface CustomDocumentService {
     CustomDocument createDocument(MultipartFile file, String timestamp, String description, String convertedFileName, String username);
 
     Resource downloadFile(String id);
+
+    String getNameById(String id);
 }
