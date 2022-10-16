@@ -90,7 +90,7 @@ public class CustomDocumentServiceImpl implements CustomDocumentService {
         if (isAllowedDownloadFile) {
             try {
                 String convertedFileName = customDocument.getConvertedFileName();
-                String path = PATH + convertedFileName + PDF;
+                String path = PATH + user.getUsername() + "_" + convertedFileName + PDF;
                 File file = new File(path);
                 return new InputStreamResource(new FileInputStream(file));
             } catch (FileNotFoundException e) {
